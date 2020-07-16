@@ -1,0 +1,163 @@
+---
+title: "Caracterización comunas RM"
+subtitle: "Contexto Covid-19"
+author: "Javiera Rojas Cifuentes"
+date: "17 de julio de 2020"
+bibliography: "insumos/Referencias.bib"
+url: blue
+csl: "insumos/apa-single-spaced.csl"
+output:
+  rmarkdown::html_vignette:
+    css: /home/rstudio-user/R/x86_64-pc-linux-gnu-library/4.0/rmarkdown/rmarkdown/templates/html_vignette/resources/vignette.css
+vignette: |
+  %\VignetteIndexEntry{Caracterización comunas RM} %\VignetteEngine{knitr::rmarkdown} %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+opts_chunk$set(comment=NA, prompt=FALSE, cache=FALSE, echo=TRUE, message = FALSE, warning = FALSE, results='asis')
+# Esta segunda línea se agrega para indicar que la carpeta desde donde debe partir buscando archivos es la del proyecto R
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+library(summarytools)
+st_options(bootstrap.css     = FALSE,
+           plain.ascii       = FALSE,
+           style             = "rmarkdown",
+           dfSummary.silent  = TRUE,
+           subtitle.emphasis = FALSE,
+           lang = "es",
+           footnote = "Fuente: Elaboración propia en base a CASEN (2017)")
+                                          
+```
+
+```{r, echo=FALSE}
+st_css()
+```
+
+```{r cargar-datos, echo = FALSE}
+# Con este comando se carga el archivo (lista) que contiene los resultados
+resultados <- readRDS("Data/AnalysisData/resultados-reporte.rds")
+```
+
+# Introducción
+
+El presente reporte proporciona información sobre la población residente en las comunas que a la fecha del Informe Epidemiológico N°31 del MINSAL del 05-07-2020 presentaban las mayores tasas de mortalidad de la Región Metropolitana. Según este Informe, a nivel nacional las comunas con mayores tasas de mortalidad se ubicaban en esta región [@minsal_informe_2020].
+
+El objetivo general es identificar parte de los atributos basales de la población que habita en estas comunas, y a partir de ello analizar el contexto sanitario actual en el que se encuentran frente al COVID-19.
+
+Las comunas de la Región Metropolitana con mayor número de muertos por cada 100 mil habitantes a la fecha señalada son las siguientes:
+
+Table: Comunas con mayores tasas de mortalidad en la Región Metropolitana
+
+ **Comuna** |  **Población** | **N° casos confirmados** | **Tasa incidencia acumulada** | **N° fallecidos** | **Tasa mortalidad**
+----------------------| ----------------------| ---------------------- | ---------------------- | ---------------------- | ---------------------- |
+*Pedro Aguirre Cerda* | 107.803 | 3.677 | 3410,9 | 155 | 143,8 
+*San Ramón* | 86.510  | 3.960 | 4577,5 | 124 | 143,3
+*Cerro Navia* | 142.465 | 5.581 | 3917,5 | 194 | 136,2  
+*Independencia* | 142.065 | 5.782 | 4070 | 192 | 135,1
+*Recoleta* | 190.075 | 7.652 | 4025,8 | 254 | 133,6
+*Lo Espejo* | 103.865 | 3.636 | 3500,7 | 135 | 130
+*La Granja* | 122.557 | 6.229 | 5082,5 | 159 | 129,7
+*La Pintana* | 189.335 | 8.568 | 4525,3 | 242 | 127,8
+*Conchalí* | 139.195 | 5.402 | 3880,9 | 175 | 125,7
+*Renca* | 160.847 | 6.761 | 4203,4 | 172 | 106,9
+*San Joaquín* | 103.485 | 4.254 | 4110,7 | 113 | 109,2
+*Lo Prado* | 140.403 | 4.055 | 3884 | 111 | 106,3
+                 
+Fuente: Elaboración propia en base a Informe Epidemiológico N°31 del MINSAL (05-07-2020).
+
+# Método
+
+Se trabajó con la Encuesta de Caracterización Socioeconómica (CASEN) del año 2017. La base de datos fue explorada utilizando el factor de expansión comunal y su procesamiento se hizo con el programa R. A continuación, se presentan las variables seleccionadas de la base de datos para los fines de este reporte:
+
+Table: Variables seleccionadas
+
+ **Código** |  **Nombre variable** | 
+----------------------| ----------------------|
+*e6a* | Nivel educacional más alto alcanzado 
+*hacinamiento* | Hacinamiento
+*Pobreza* | Situación de pobreza por ingresos  
+*Pobreza_multi_5d* | Situación de pobreza multidimensional con entorno y redes (5 dimensiones) 
+*o15* | En su trabajo o negocio principal ¿usted trabaja como?
+*rama1* | o22_cod. ¿A qué se dedica o qué hace el negocio...donde trabaja? (1 dígito)
+*y1* | Mes pasado salario líquido trabajo principal
+                
+Fuente: Elaboración propia en base a CASEN (2017)
+
+# Resultados
+
+
+Como es posible ver en la Tabla 1, la población de estas comunas alcanzó mayormente los niveles de educación básica y media, sobrepasando en su generalidad el 40% respectivamente. En relación al nivel superior, destaca particularmente la comuna de Independencia con un 39%.
+
+> **Tabla 1**. Frecuencias conjuntas: Nivel Educacional según Comuna
+
+```{r, echo=F}
+print(resultados[[1]], method = "render", headings = F)
+```
+
+Según la Casen 2017, a nivel nacional el hacinamiento medio (bajo y alto) fue de 5,9%, mientras que el crítico de 0,7%. A su vez, en la Región Metropolitana el total de hogares con hacinamiento fue de 8,1%. La Tabla 2 muestra la distribución de los hogares según la presencia o no de hacinamiento en las comunas bajo estudio. De esta forma, podemos ver que el porcentaje de hogares con hacinamiento medio y crítico (2,5 y más personas por dormitorio en la vivienda) en la gran mayoría de los casos supera los índices registrados tanto a nivel nacional como regional.Ahora bien, en una situación más crítica se encuentran los hogares de las comunas de Recoleta (14,7%), Lo Espejo (14,3%) y La Pintana (12,6%). 
+
+> **Tabla 2**. Frecuencias conjuntas: Hogares según situación de Hacinamiento y Comuna
+
+```{r, echo=F}
+print(resultados[[2]], method = "render", headings = F)
+```
+
+A nivel nacional la pobreza por ingresos en el año 2017 fue de 8,6% (6,3% pobres no extremos, 2,3% pobres extremos), mientras que en la Región Metropolitana de 5,4%. En base a la Tabla 3, destacan al menos 6 comunas con una situación de pobreza por sobre el promedio regional y las comunas de La Pintana (14,5%) e Independencia (10,4%) con cifras muy por encima del promedio nacional.
+
+> **Tabla 3**. Frecuencias conjuntas: Situación de Pobreza por Ingresos según Comuna
+
+
+```{r, echo=F}
+print(resultados[[3]], method = "render", headings = F)
+```
+
+La variable Pobreza Multidimensional contempla 5 dimensiones para las cuales se evalúa su carencia conjunta (educación, salud, trabajo y seguridad social, vivienda y entorno, y, redes y cohesión social). A nivel nacional, el 20,7% de la población se encontraba bajo esta categoría de pobreza, mientras que en la Región Metropolitana alcanzaba el 20%. La Tabla 4 muestra, en su generalidad, que un porcentaje importante de los hogares de las comunas bajo estudio son pobres en múltiples dimensiones, particularmente resaltan las comunas de Lo Espejo (41,2%), Cerro Navia (35%), La Pintana (31,7%) y Conchalí (29,8%).     
+
+> **Tabla 4**. Frecuencias conjuntas: Situación de Pobreza por Ingresos según Comuna
+
+```{r, echo=F}
+print(resultados[[4]], method = "render", headings = F)
+```
+
+> **Tabla 5**. Frecuencias conjuntas: tipo de Empleo según Comuna
+
+La tabla 5 muestra que la población económicamente activa de estas comunas se desempeña mayoritariamente como obrero, superando en todas las comunas el 60% de la fuerza de trabajo total. La segunda categoría con mayor representatividad fue la de trabajador por cuenta propia, principalmente en las comunas de La Pintana (33%), Cerro Navia (29,4%) y Lo Espejo (27,5%).   
+
+
+```{r, echo=F}
+print(resultados[[5]], method = "render", headings = F)
+```
+
+La Tabla 6 indica las ramas con mayor representatividad en las comunas bajo estudio. Resaltan particularmente los sectores del comercio, la industria manufacturera y la construcción. Cabe destacar que prácticamente en todas las comunas el sector del comercio representa alrededor del 30% del total.
+
+> **Tabla 6**. Frecuencias conjuntas: Rama de Ocupación según Comuna
+
+```{r, echo=F}
+print(resultados[[6]], method = "render", headings = F)
+```
+
+En relación al salario líquido del trabajo principal, el año 2017 en la Región Metropolitana la media del salario líquido correspondió a $572.930, mientras que la mitad de la población percibía un salario líquido igual o menor a $380.000. La Tabla 7 muestra el salario líquido en las comunas bajo estudio. Lo primero a relevar es que el 50% de los casos de todas las comunas registraron un salario líquido por debajo de la cifra regional, a excepción de la comuna de Independencia que presenta la mediana más alta de la muestra. Asimismo, en todos los casos la media del salario líquido, es decir, el valor en torno al cual tienden a agruparse los casos, está muy por debajo de la cifra regional. Por otro lado, las comunas de Recoleta y Renca son las que presentan los valores más altos en lo que a salario líquido refiere ($4.500.000 respectivamente).
+
+> **Tabla 7**. Estadísticos Descriptivos: Salario Líquido según Comuna
+
+```{r, echo=F}
+print(resultados[[7]], method = "render", headings = F)
+```
+
+> **Tabla 8**. Frecuencias conjuntas: Sistema de Salud según Comuna
+
+```{r, echo=F}
+print(resultados[[8]], method = "render", headings = F)
+```
+
+# Discusión
+
+Pendiente
+
+# Referencias bibliográficas
+
+```{r, echo=F}
+# Limpiar entorno de trabajo
+rm(list=ls())
+```
+
