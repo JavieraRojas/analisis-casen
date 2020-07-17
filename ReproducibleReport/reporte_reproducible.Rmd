@@ -8,7 +8,6 @@ url: blue
 csl: "insumos/apa-single-spaced.csl"
 output:
   rmarkdown::html_vignette:
-    css: /home/rstudio-user/R/x86_64-pc-linux-gnu-library/4.0/rmarkdown/rmarkdown/templates/html_vignette/resources/vignette.css
 vignette: |
   %\VignetteIndexEntry{Caracterización comunas RM} %\VignetteEngine{knitr::rmarkdown} %\VignetteEncoding{UTF-8}
 ---
