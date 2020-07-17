@@ -10,7 +10,7 @@ ipak <- function(pkg){
 
 # Editar para paquetes requeridos: deben considerarse todos los paquetes necesarios en el proyecto
 # Es decir, en cada script
-paquetes <- c("haven", "dplyr", "car", "summarytools", "ggplot2")
+paquetes <- c("haven", "dplyr", "car", "summarytools")
 ipak(paquetes)
 
 # Ejecuta código 1: lectura base datos
